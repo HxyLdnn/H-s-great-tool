@@ -1,21 +1,28 @@
-#include<iostream>
+#include <iostream>
+#include <algorithm>
 using namespace std;
-int x, y;
-void exgcd(int a, int b){ // void exgcd(int a, int b, int &x, int &y)
+typedef long long LL;
+
+int exgcd(int a, int b, int &x, int &y){
     if(b == 0){
         x = 1, y = 0;
-        return ;
+        return a;
     }
-    exgcd(b, a % b, y, x);
-    y = y - a / b * x;
+    int d = exgcd(b, a % b, y, x);
+    y -= a / b * x;
+    return d;
 }
 
 int main(){
-    int n, a, b;
-    cin >> n;
-    while(n -- ){
-        cin >> a >> b;
-        exgcd(a, b, x, y);
-        cout << x << ' ' << y << endl;
+	int a, m;
+    a = 4, m = 3;
+    int x, y, d;
+    d = exgcd(a, m, x, y);
+    if(d == 1){ // 保证互质才会有逆元
+        cout << "4 % 3 的逆元大小为" << endl;
+        cout << ((LL)x % m + m) % m << endl; // 保证输出的逆元为正整数
+    }
+    else{
+        puts("不存在逆元");
     }
 }
