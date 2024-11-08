@@ -1,0 +1,30 @@
+typedef pair<ll, ll> pll;
+ll d[1003][1003];
+char g[1003][1003];
+ll dx[4] = {1, 0, -1, 0};
+ll dy[4] = {0, 1, 0, -1};
+ll m, n, u, v;
+void bfs(ll u,ll v)
+{
+    queue<pll> q;
+    memset(d, -1, sizeof(d));
+    d[u][v] = 0;
+    q.push({u, v});
+    while(q.size())
+    {
+        auto t = q.front();
+        q.pop();
+        for (ll i = 0; i < 4;i++)
+        {
+            ll x = t.first + dx[i];
+            ll y = t.second + dy[i];
+            if(x>=1 && x<=n && y>=1 && y<=m && g[x][y]!='x' && d[x][y]==-1)
+            {
+                d[x][y] = d[t.first][t.second] + 1;
+                q.push({x, y});
+                
+            }
+        }
+    }
+    
+}
