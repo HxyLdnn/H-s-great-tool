@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+ll num[500005];
+string change(string s)
+{
+    for (ll i = 0; i <= s.size() - 1; i++)
+    {
+        if (s[i] != '0')
+        {
+            s = s.substr(i, s.size() - i);
+            break;
+        }
+    }
+    return s;
+}
+ll solve(string s1, string s2)
+{
+    ll ans = 0;
+    for (ll i = s1.size() - 1; i >= 0; i--)
+    {
+        for (ll j = s2.size() - 1; j >= 0; j--)
+        {
+            ll r = s1.size() - 1 + s2.size() - 1 - i - j;
+            ans = max(ans, r);
+            num[r] += (s1[i] - 48) * (s2[j] - 48);
+            while (num[r] >= 10)
+            {
+                num[r + 1] += num[r] / 10;
+                num[r] %= 10;
+                r++;
+                ans = max(ans, r);
+            }
+        }
+    }
+    ll flag = 0;
+    for (ll i = ans; i >= 0; i--)
+    {
+        if (num[i] != 0)
+        {
+            flag = 1;
+            cout << num[i];
+        }
+        else if (num[i] == 0 && flag == 1)
+        {
+            cout << num[i];
+        }
+    }
+    if (flag == 0)
+    {
+        cout << 0;
+    }
+    cout << "\n";
+    for (ll i = 0; i <= ans; i++)
+    {
+        num[i] = 0;
+    }
+    return 1;
+}
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        string s1;
+        string s2;
+        cin >> s1 >> s2;
+        s1 = change(s1);
+        s2 = change(s2);
+        // cout<<s1<<" "<<s2<<"\n";
+        solve(s1, s2);
+    }
+}
